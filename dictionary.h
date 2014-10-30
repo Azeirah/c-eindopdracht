@@ -10,6 +10,9 @@ typedef struct Dictionary {
 } Dictionary;
 
 Dictionary createDictionary();
+int indexOfDict(char* word, Dictionary* dictionary);
+int deleteTranslation(char* word, Dictionary* dictionary);
+int changeTranslation(char* word, char* newTranslation, Dictionary* dictionary);
 void addTranslation(char* word, char* translation, Dictionary* dictionary);
 void printTranslation(Relation* rl);
 void printAllTranslations(Dictionary* dictionary);

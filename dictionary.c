@@ -16,9 +16,28 @@ Dictionary createDictionary() {
     return *dictionary;
 }
 
+int indexOfDict(char* word, Dictionary* dictionary) {
+    for (int i = 0; i < dictionary->length; i++) {
+        if (strcmp(word, dictionary->translations[i].word) == 0) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+int changeTranslation(char* word, char* newTranslation, Dictionary* dictionary) {
+    int index = indexOfDict(word, dictionary);
+    if (index >= 0) {
+        dictionary->translations[index].translation = realloc(dictionary->translations[index].translation, STRLEN(newTranslation));
+        strcpy(dictionary->translations[index].translation, newTranslation);
+        return 1;
+    }
+    return -1;
+}
+
 void addTranslation(char* word, char* translation, Dictionary* dictionary) {
     Relation* translations;
-    int    newMemorySize  = 0;
+    int       newMemorySize  = 0;
     Relation* newRelation = malloc(sizeof(Relation));
 
     // allocating space for the strings
@@ -39,6 +58,23 @@ void addTranslation(char* word, char* translation, Dictionary* dictionary) {
     dictionary->translations[dictionary->length] = *newRelation;
     dictionary->memorySize                       = newMemorySize;
     dictionary->length                           += 1;
+}
+
+int deleteTranslation(char* word, Dictionary* dictionary) {
+    int index = indexOfDict(word, dictionary);
+    int    newMemorySize = 0;
+    if (index >= 0) {
+        newMemorySize = dictionary->memorySize - sizeof(dictionary->translations[index]);
+        for (size_t i = index; i < dictionary->length - 1; i++) {
+            dictionary->translations[i] = dictionary->translations[i + 1];
+        }
+
+        dictionary->memorySize = newMemorySize;
+        dictionary->length -= 1;
+    } else {
+        return 0;
+    }
+    return 1;
 }
 
 void printTranslation(Relation* rl) {
