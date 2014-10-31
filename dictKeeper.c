@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "dictionary.h"
 #include "dictKeeper.h"
@@ -108,7 +109,6 @@ int displayMenu() {
 
 int main(int argc, char const *argv[]) {
     Dictionary dictionary = loadDictionaryFromFile(DICTIONARYFILEPATH);
-    printAllTranslations(&dictionary);
 
     while (true) {
         int choice = displayMenu();
